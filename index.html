@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- Primary Meta Tags -->
+    <title>Flower Point | Premium Floral Boutique & Same-Day Delivery</title>
+    <meta name="title" content="Flower Point | Premium Floral Boutique & Same-Day Delivery">
+    <meta name="description" content="Discover exquisite hand-tied bouquets and premium floral arrangements at Flower Point. Offering same-day delivery for weddings, gifts, and special occasions.">
+    <meta name="keywords" content="flower shop, luxury bouquets, flower delivery, roses, wedding flowers, floral gifts, Flower Point">
+    <meta name="author" content="Flower Point">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://flowerpoint.com/">
+    <meta property="og:title" content="Flower Point | Premium Floral Boutique">
+    <meta property="og:description" content="Experience the finest floral arrangements crafted with passion and delivered with care.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1516565349308-c76fe36a115c?q=80&w=1169&auto=format&fit=crop">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://flowerpoint.com/">
+    <meta property="twitter:title" content="Flower Point | Premium Floral Boutique">
+    <meta property="twitter:description" content="Experience the finest floral arrangements crafted with passion and delivered with care.">
+    <meta property="twitter:image" content="https://images.unsplash.com/photo-1516565349308-c76fe36a115c?q=80&w=1169&auto=format&fit=crop">
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='%23E63973' d='M50 10c-5 0-15 5-15 15s10 15 15 15 15-5 15-15-10-15-15-15zm-25 25c0-5-5-15-15-15s-15 10-15 15 5 15 15 15 15-10 25-15zm50 0c0-5 10-15 15-15s15 10 15 15-5 15-15 15-15-10-15-15zM25 65c-5 0-15-5-15-15s10-15 15-15 15 5 15 15-10 15-15 15zm50 0c5 0 15-5 15-15s-10-15-15-15-15 5-15 15 10 15 15 15zM50 90c-5 0-15-10-15-25s10-15 15-15 15 5 15 15-10 25-15 25z'/><circle fill='%23B02656' cx='50' cy='50' r='12'/></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+        h1, h2, h3, h4, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        .bg-premium-cream { background-color: #FFF5F7; }
+        .text-rose-pink { color: #E63973; }
+        .bg-rose-pink { background-color: #E63973; }
+        .border-rose-pink { border-color: #E63973; }
+        
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #FFF5F7; }
+        ::-webkit-scrollbar-thumb { background: #E63973; border-radius: 10px; }
+        
+        @media (prefers-reduced-motion: no-preference) {
+            .animate-pulse-slow {
+                animation: pulse 15s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1.05); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        .no-scroll { 
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.40.0",
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.13.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-premium-cream text-slate-800 antialiased overflow-x-hidden">
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
