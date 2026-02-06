@@ -30,16 +30,12 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
-      // Prevent touchmove events on the body for iOS
-      document.body.classList.add('fixed', 'w-full');
+      document.body.classList.add('modal-open');
     } else {
-      document.body.style.overflow = 'unset';
-      document.body.classList.remove('fixed', 'w-full');
+      document.body.classList.remove('modal-open');
     }
     return () => { 
-      document.body.style.overflow = 'unset';
-      document.body.classList.remove('fixed', 'w-full');
+      document.body.classList.remove('modal-open');
     };
   }, [isOpen]);
 
@@ -55,17 +51,16 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
     const message = encodeURIComponent(
       `🌸 *NEW ORDER FROM FLOWER POINT* 🌸\n\n` +
       `*Order Type:* ${isDirectBuy ? 'Quick Buy' : 'Standard Checkout'}\n\n` +
-      `*Customer Details:*\n` +
       `👤 Name: ${formData.name}\n` +
       `📞 Phone: ${formData.phone}\n` +
       `📍 Address: ${formData.address}\n\n` +
       `*Items Ordered:*\n` +
       `${orderItems}\n\n` +
       `*Order Summary:*\n` +
-      `Items Subtotal: ₹${subtotal.toFixed(2)}\n` +
-      `Delivery Charge: ₹${DELIVERY_FEE.toFixed(2)}\n` +
+      `Subtotal: ₹${subtotal.toFixed(2)}\n` +
+      `Delivery: ₹${DELIVERY_FEE.toFixed(2)}\n` +
       `--------------------------\n` +
-      `*GRAND TOTAL: ₹${total.toFixed(2)}*\n\n` +
+      `*TOTAL: ₹${total.toFixed(2)}*\n\n` +
       `Please confirm my order. Thank you! ✨`
     );
 
@@ -81,21 +76,23 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[400] flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-hidden">
+    <div className="fixed inset-0 z-[500] flex items-end sm:items-center justify-center p-0 sm:p-4">
+      {/* Background Blur Overlay */}
       <div 
-        className="absolute inset-0 bg-slate-900/80 backdrop-blur-md animate-in fade-in duration-500" 
+        className="absolute inset-0 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-500" 
         onClick={onClose} 
       />
       
-      <div className="relative bg-white w-full max-w-lg rounded-t-[2.5rem] sm:rounded-[3rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.3)] flex flex-col max-h-[92vh] sm:max-h-[90vh] overflow-hidden animate-in slide-in-from-bottom-10 sm:zoom-in-95 duration-500">
+      {/* Modal Container */}
+      <div className="relative bg-white w-full max-w-lg rounded-t-[2.5rem] sm:rounded-[3rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.3)] flex flex-col max-h-[95vh] sm:max-h-[90vh] overflow-hidden animate-in slide-in-from-bottom-20 sm:zoom-in-95 duration-500">
         
-        {/* Sticky Header */}
-        <div className="shrink-0 p-6 sm:p-10 pb-4 sm:pb-6 border-b border-slate-50 bg-premium-cream/20 flex justify-between items-start z-10">
+        {/* Fixed Header */}
+        <div className="shrink-0 p-6 sm:p-10 pb-4 sm:pb-6 border-b border-slate-50 bg-premium-cream/30 flex justify-between items-start z-10">
           <div>
-            <span className="inline-block px-3 py-1 bg-rose-pink/10 text-rose-pink text-[9px] sm:text-[10px] font-black uppercase tracking-widest rounded-full mb-2">
+            <span className="inline-block px-3 py-1 bg-rose-pink/10 text-rose-pink text-[9px] font-black uppercase tracking-widest rounded-full mb-2">
               {isDirectBuy ? 'Quick Purchase' : 'Checkout'}
             </span>
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 font-serif">Delivery Info</h2>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 font-serif leading-tight">Delivery Details</h2>
           </div>
           <button 
             type="button" 
@@ -107,18 +104,18 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
         </div>
 
         {/* Scrollable Content Area */}
-        <div className="flex-1 overflow-y-auto p-6 sm:p-10 pt-4 space-y-6 sm:space-y-8 no-scrollbar">
+        <div className="flex-1 overflow-y-auto p-6 sm:p-10 pt-4 space-y-8 no-scrollbar touch-pan-y">
           {isSuccess ? (
-            <div className="py-12 sm:py-16 text-center flex flex-col items-center">
-              <div className="w-20 h-20 sm:w-24 h-24 bg-green-50 text-green-500 rounded-full flex items-center justify-center mb-6 sm:mb-8 animate-bounce">
+            <div className="py-16 text-center flex flex-col items-center">
+              <div className="w-24 h-24 bg-green-50 text-green-500 rounded-full flex items-center justify-center mb-8 animate-bounce">
                 <CheckCircle2 size={40} />
               </div>
-              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2 sm:mb-3 font-serif">Order Shared!</h2>
-              <p className="text-slate-500 text-sm">Connecting to WhatsApp...</p>
+              <h2 className="text-3xl font-black text-slate-900 mb-3 font-serif">Order Shared!</h2>
+              <p className="text-slate-500 text-sm">Redirecting to WhatsApp...</p>
             </div>
           ) : (
-            <form id="checkout-form" onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
-              <div className="space-y-4 sm:space-y-5">
+            <form id="checkout-form-main" onSubmit={handleSubmit} className="space-y-8">
+              <div className="space-y-4">
                 <div className="relative group">
                   <User className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-rose-pink transition-colors" size={18} />
                   <input 
@@ -144,44 +141,46 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 </div>
 
                 <div className="relative group">
-                  <MapPin className="absolute left-5 top-5 text-slate-300 group-focus-within:text-rose-pink transition-colors" size={18} />
+                  <MapPin className="absolute left-5 top-6 text-slate-300 group-focus-within:text-rose-pink transition-colors" size={18} />
                   <textarea 
                     required
                     rows={2}
                     placeholder="Full Delivery Address"
                     value={formData.address}
                     onChange={e => setFormData({...formData, address: e.target.value})}
-                    className="w-full pl-14 pr-6 py-4 sm:py-5 bg-slate-50 border-2 border-transparent focus:border-rose-pink/20 focus:bg-white rounded-2xl sm:rounded-3xl outline-none text-sm transition-all resize-none font-medium placeholder:text-slate-300"
+                    className="w-full pl-14 pr-6 py-5 bg-slate-50 border-2 border-transparent focus:border-rose-pink/20 focus:bg-white rounded-2xl sm:rounded-3xl outline-none text-sm transition-all resize-none font-medium placeholder:text-slate-300 min-h-[100px]"
                   />
                 </div>
               </div>
 
-              {/* Order Summary Block */}
-              <div className="bg-slate-900 text-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-8 shadow-2xl">
-                <div className="flex justify-between items-center mb-4 sm:mb-6">
-                  <span className="text-rose-pink text-[9px] font-black uppercase tracking-[0.2em]">Summary</span>
+              {/* Enhanced Order Summary Block */}
+              <div className="bg-slate-900 text-white rounded-[2.5rem] p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-rose-pink/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
+                
+                <div className="flex justify-between items-center mb-6">
+                  <span className="text-rose-pink text-[10px] font-black uppercase tracking-[0.2em]">Your Selection</span>
                   <div className="h-px flex-1 bg-white/10 mx-4"></div>
                 </div>
                 
-                <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
-                  <div className="flex justify-between items-center text-[10px] sm:text-xs">
-                    <span className="text-white/40 font-bold uppercase tracking-wider">Product Total</span>
+                <div className="space-y-3 mb-6">
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-white/40 font-bold uppercase tracking-widest">Products</span>
                     <span className="font-bold">₹{subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between items-center text-[10px] sm:text-xs">
-                    <span className="text-white/40 font-bold uppercase tracking-wider">Delivery Fee</span>
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-white/40 font-bold uppercase tracking-widest">Express Delivery</span>
                     <span className="font-bold text-rose-pink">+ ₹{DELIVERY_FEE.toFixed(2)}</span>
                   </div>
                 </div>
 
-                <div className="pt-4 sm:pt-6 border-t border-white/10 flex justify-between items-center">
+                <div className="pt-6 border-t border-white/10 flex justify-between items-center">
                   <div className="flex items-center">
-                    <div className="w-10 h-10 sm:w-12 h-12 bg-white/5 rounded-xl sm:rounded-2xl flex items-center justify-center mr-3 sm:mr-4 border border-white/5 shrink-0">
+                    <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center mr-4 border border-white/5">
                       <ShoppingBag size={20} className="text-rose-pink" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-base sm:text-lg leading-tight">Total</h4>
-                      <p className="text-[8px] sm:text-[10px] text-white/30 font-bold uppercase tracking-widest">Incl. all taxes</p>
+                      <h4 className="font-bold text-lg leading-tight">Total Payable</h4>
+                      <p className="text-[9px] text-white/30 font-bold uppercase tracking-widest">Inclusive of all taxes</p>
                     </div>
                   </div>
                   <div className="text-right">
@@ -193,15 +192,15 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
           )}
         </div>
 
-        {/* Footer Button - Stick to bottom of modal */}
+        {/* Fixed Footer Button */}
         {!isSuccess && (
-          <div className="shrink-0 p-6 sm:p-10 pt-2 border-t border-slate-50 bg-white">
+          <div className="shrink-0 p-6 sm:p-10 pt-2 border-t border-slate-50 bg-white z-20">
             <button 
               type="submit"
-              form="checkout-form"
+              form="checkout-form-main"
               className="w-full bg-rose-pink text-white font-black text-xs sm:text-sm uppercase tracking-[0.2em] py-5 sm:py-6 rounded-2xl sm:rounded-3xl shadow-2xl shadow-rose-pink/30 flex items-center justify-center space-x-3 active:scale-[0.98] transition-all group"
             >
-              <span>Confirm on WhatsApp</span>
+              <span>Place Order via WhatsApp</span>
               <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
             </button>
           </div>
