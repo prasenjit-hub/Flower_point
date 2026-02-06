@@ -31,15 +31,20 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      // Prevent touchmove events on the body for iOS
+      document.body.classList.add('fixed', 'w-full');
     } else {
       document.body.style.overflow = 'unset';
+      document.body.classList.remove('fixed', 'w-full');
     }
-    return () => { document.body.style.overflow = 'unset'; };
+    return () => { 
+      document.body.style.overflow = 'unset';
+      document.body.classList.remove('fixed', 'w-full');
+    };
   }, [isOpen]);
 
   if (!isOpen) return null;
 
-  // Calculate subtotal for display
   const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -76,122 +81,130 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[400] flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[400] flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-hidden">
       <div 
         className="absolute inset-0 bg-slate-900/80 backdrop-blur-md animate-in fade-in duration-500" 
         onClick={onClose} 
       />
       
-      <div className="relative bg-white w-full max-w-lg rounded-[3rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.3)] overflow-hidden animate-in zoom-in-95 duration-500">
-        {isSuccess ? (
-          <div className="p-16 text-center flex flex-col items-center">
-            <div className="w-24 h-24 bg-green-50 text-green-500 rounded-full flex items-center justify-center mb-8 animate-bounce">
-              <CheckCircle2 size={48} />
-            </div>
-            <h2 className="text-3xl font-black text-slate-900 mb-3 font-serif">Order Shared!</h2>
-            <p className="text-slate-500">Connecting you to our florist on WhatsApp...</p>
+      <div className="relative bg-white w-full max-w-lg rounded-t-[2.5rem] sm:rounded-[3rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.3)] flex flex-col max-h-[92vh] sm:max-h-[90vh] overflow-hidden animate-in slide-in-from-bottom-10 sm:zoom-in-95 duration-500">
+        
+        {/* Sticky Header */}
+        <div className="shrink-0 p-6 sm:p-10 pb-4 sm:pb-6 border-b border-slate-50 bg-premium-cream/20 flex justify-between items-start z-10">
+          <div>
+            <span className="inline-block px-3 py-1 bg-rose-pink/10 text-rose-pink text-[9px] sm:text-[10px] font-black uppercase tracking-widest rounded-full mb-2">
+              {isDirectBuy ? 'Quick Purchase' : 'Checkout'}
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 font-serif">Delivery Info</h2>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col">
-            <div className="p-10 pb-6 border-b border-slate-50 bg-premium-cream/20 flex justify-between items-start">
-              <div>
-                <span className="inline-block px-3 py-1 bg-rose-pink/10 text-rose-pink text-[10px] font-black uppercase tracking-widest rounded-full mb-3">
-                  {isDirectBuy ? 'Quick Purchase' : 'Checkout'}
-                </span>
-                <h2 className="text-3xl font-black text-slate-900 font-serif">Delivery Info</h2>
-                <p className="text-slate-500 text-sm mt-1">Where should we send your blooms?</p>
-              </div>
-              <button 
-                type="button" 
-                onClick={onClose} 
-                className="p-3 bg-white hover:bg-slate-50 rounded-full shadow-sm transition-all text-slate-400 hover:text-slate-600 border border-slate-100"
-              >
-                <X size={20} />
-              </button>
-            </div>
+          <button 
+            type="button" 
+            onClick={onClose} 
+            className="p-2 sm:p-3 bg-white hover:bg-slate-50 rounded-full shadow-sm transition-all text-slate-400 hover:text-slate-600 border border-slate-100"
+          >
+            <X size={20} />
+          </button>
+        </div>
 
-            <div className="p-10 space-y-8">
-              <div className="space-y-5">
+        {/* Scrollable Content Area */}
+        <div className="flex-1 overflow-y-auto p-6 sm:p-10 pt-4 space-y-6 sm:space-y-8 no-scrollbar">
+          {isSuccess ? (
+            <div className="py-12 sm:py-16 text-center flex flex-col items-center">
+              <div className="w-20 h-20 sm:w-24 h-24 bg-green-50 text-green-500 rounded-full flex items-center justify-center mb-6 sm:mb-8 animate-bounce">
+                <CheckCircle2 size={40} />
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2 sm:mb-3 font-serif">Order Shared!</h2>
+              <p className="text-slate-500 text-sm">Connecting to WhatsApp...</p>
+            </div>
+          ) : (
+            <form id="checkout-form" onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
+              <div className="space-y-4 sm:space-y-5">
                 <div className="relative group">
-                  <User className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-rose-pink transition-colors" size={20} />
+                  <User className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-rose-pink transition-colors" size={18} />
                   <input 
                     required
                     type="text"
                     placeholder="Full Name"
                     value={formData.name}
                     onChange={e => setFormData({...formData, name: e.target.value})}
-                    className="w-full pl-14 pr-6 py-5 bg-slate-50 border-2 border-transparent focus:border-rose-pink/20 focus:bg-white rounded-3xl outline-none text-sm transition-all font-medium placeholder:text-slate-300"
+                    className="w-full pl-14 pr-6 py-4 sm:py-5 bg-slate-50 border-2 border-transparent focus:border-rose-pink/20 focus:bg-white rounded-2xl sm:rounded-3xl outline-none text-sm transition-all font-medium placeholder:text-slate-300"
                   />
                 </div>
 
                 <div className="relative group">
-                  <Phone className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-rose-pink transition-colors" size={20} />
+                  <Phone className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-rose-pink transition-colors" size={18} />
                   <input 
                     required
                     type="tel"
                     placeholder="WhatsApp Number"
                     value={formData.phone}
                     onChange={e => setFormData({...formData, phone: e.target.value})}
-                    className="w-full pl-14 pr-6 py-5 bg-slate-50 border-2 border-transparent focus:border-rose-pink/20 focus:bg-white rounded-3xl outline-none text-sm transition-all font-medium placeholder:text-slate-300"
+                    className="w-full pl-14 pr-6 py-4 sm:py-5 bg-slate-50 border-2 border-transparent focus:border-rose-pink/20 focus:bg-white rounded-2xl sm:rounded-3xl outline-none text-sm transition-all font-medium placeholder:text-slate-300"
                   />
                 </div>
 
                 <div className="relative group">
-                  <MapPin className="absolute left-5 top-6 text-slate-300 group-focus-within:text-rose-pink transition-colors" size={20} />
+                  <MapPin className="absolute left-5 top-5 text-slate-300 group-focus-within:text-rose-pink transition-colors" size={18} />
                   <textarea 
                     required
-                    rows={3}
+                    rows={2}
                     placeholder="Full Delivery Address"
                     value={formData.address}
                     onChange={e => setFormData({...formData, address: e.target.value})}
-                    className="w-full pl-14 pr-6 py-5 bg-slate-50 border-2 border-transparent focus:border-rose-pink/20 focus:bg-white rounded-3xl outline-none text-sm transition-all resize-none font-medium placeholder:text-slate-300"
+                    className="w-full pl-14 pr-6 py-4 sm:py-5 bg-slate-50 border-2 border-transparent focus:border-rose-pink/20 focus:bg-white rounded-2xl sm:rounded-3xl outline-none text-sm transition-all resize-none font-medium placeholder:text-slate-300"
                   />
                 </div>
               </div>
 
-              {/* Enhanced Order Summary with Breakdown */}
-              <div className="bg-slate-900 text-white rounded-[2.5rem] p-8 shadow-2xl shadow-slate-900/40">
-                <div className="flex justify-between items-center mb-6">
-                  <span className="text-rose-pink text-[10px] font-black uppercase tracking-[0.2em]">Order Summary</span>
+              {/* Order Summary Block */}
+              <div className="bg-slate-900 text-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-8 shadow-2xl">
+                <div className="flex justify-between items-center mb-4 sm:mb-6">
+                  <span className="text-rose-pink text-[9px] font-black uppercase tracking-[0.2em]">Summary</span>
                   <div className="h-px flex-1 bg-white/10 mx-4"></div>
                 </div>
                 
-                <div className="space-y-3 mb-6">
-                  <div className="flex justify-between items-center text-xs">
+                <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
+                  <div className="flex justify-between items-center text-[10px] sm:text-xs">
                     <span className="text-white/40 font-bold uppercase tracking-wider">Product Total</span>
                     <span className="font-bold">₹{subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between items-center text-xs">
+                  <div className="flex justify-between items-center text-[10px] sm:text-xs">
                     <span className="text-white/40 font-bold uppercase tracking-wider">Delivery Fee</span>
                     <span className="font-bold text-rose-pink">+ ₹{DELIVERY_FEE.toFixed(2)}</span>
                   </div>
                 </div>
 
-                <div className="pt-6 border-t border-white/10 flex justify-between items-center">
+                <div className="pt-4 sm:pt-6 border-t border-white/10 flex justify-between items-center">
                   <div className="flex items-center">
-                    <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center mr-4 border border-white/5">
-                      <ShoppingBag size={22} className="text-rose-pink" />
+                    <div className="w-10 h-10 sm:w-12 h-12 bg-white/5 rounded-xl sm:rounded-2xl flex items-center justify-center mr-3 sm:mr-4 border border-white/5 shrink-0">
+                      <ShoppingBag size={20} className="text-rose-pink" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-lg leading-tight">Total Payable</h4>
-                      <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest">Inclusive of all taxes</p>
+                      <h4 className="font-bold text-base sm:text-lg leading-tight">Total</h4>
+                      <p className="text-[8px] sm:text-[10px] text-white/30 font-bold uppercase tracking-widest">Incl. all taxes</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="text-3xl font-black text-rose-pink tracking-tighter">₹{total.toFixed(2)}</span>
+                    <span className="text-2xl sm:text-3xl font-black text-rose-pink tracking-tighter">₹{total.toFixed(2)}</span>
                   </div>
                 </div>
               </div>
+            </form>
+          )}
+        </div>
 
-              <button 
-                type="submit"
-                className="w-full bg-rose-pink text-white font-black text-sm uppercase tracking-[0.2em] py-6 rounded-3xl shadow-2xl shadow-rose-pink/30 flex items-center justify-center space-x-4 active:scale-[0.98] transition-all group"
-              >
-                <span>Confirm on WhatsApp</span>
-                <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-              </button>
-            </div>
-          </form>
+        {/* Footer Button - Stick to bottom of modal */}
+        {!isSuccess && (
+          <div className="shrink-0 p-6 sm:p-10 pt-2 border-t border-slate-50 bg-white">
+            <button 
+              type="submit"
+              form="checkout-form"
+              className="w-full bg-rose-pink text-white font-black text-xs sm:text-sm uppercase tracking-[0.2em] py-5 sm:py-6 rounded-2xl sm:rounded-3xl shadow-2xl shadow-rose-pink/30 flex items-center justify-center space-x-3 active:scale-[0.98] transition-all group"
+            >
+              <span>Confirm on WhatsApp</span>
+              <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            </button>
+          </div>
         )}
       </div>
     </div>
