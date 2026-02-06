@@ -8,72 +8,19 @@
     <title>Flower Point | Premium Floral Boutique</title>
     <meta name="description" content="Premium floral arrangements with same-day delivery.">
 
-    <!-- Performance: Preconnect -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://esm.sh">
-
-    <!-- Polyfill for Import Maps (CRITICAL for Mobile Browser Compatibility) -->
-    <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.1/dist/es-module-shims.js"></script>
+    <!-- Polyfill for Import Maps (Synchronous for better Firefox/Safari support) -->
+    <script src="https://ga.jspm.io/npm:es-module-shims@1.10.1/dist/es-module-shims.js"></script>
 
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='%23E63973' d='M50 10c-5 0-15 5-15 15s10 15 15 15 15-5 15-15-10-15-15-15zm-25 25c0-5-5-15-15-15s-15 10-15 15 5 15 15 15 15-10 25-15zm50 0c0-5 10-15 15-15s15 10 15 15-5 15-15 15-15-10-15-15zM25 65c-5 0-15-5-15-15s10-15 15-15 15 5 15 15-10 15-15 15zm50 0c5 0 15-5 15-15s-10-15-15-15-15 5-15 15 10 15 15 15zM50 90c-5 0-15-10-15-25s10-15 15-15 15 5 15 15-10 25-15 25z'/><circle fill='%23B02656' cx='50' cy='50' r='12'/></svg>">
     
     <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'rose-pink': '#E63973',
-                        'premium-cream': '#FFF5F7',
-                    },
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
-                    }
-                }
-            }
-        }
-    </script>
 
-    <style type="text/css">
-        /* Base styles to prevent "broken" look before Tailwind/React loads */
-        :root {
-            --rose-pink: #E63973;
-            --premium-cream: #FFF5F7;
-        }
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--premium-cream);
-            font-family: 'Poppins', sans-serif;
-            color: #1e293b;
-            overflow-x: hidden;
-        }
-        #root { min-height: 100vh; }
-        
-        /* Smooth loading transition */
-        .loading-screen {
-            position: fixed;
-            inset: 0;
-            background: var(--premium-cream);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
-        }
-        
-        /* Custom scrollbar for mobile */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background: var(--rose-pink); border-radius: 10px; }
-        
-        /* Mobile link reset */
-        a { text-decoration: none; color: inherit; }
-    </style>
+
+
 
     <script type="importmap">
 {
@@ -84,34 +31,41 @@
     "@google/genai": "https://esm.sh/@google/genai@^1.40.0",
     "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
     "react-router-dom": "https://esm.sh/react-router-dom@^7.13.0",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/"
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
+
 </head>
-<body class="bg-premium-cream antialiased">
-    <div id="root">
-        <!-- Minimal placeholder to prevent layout shift -->
-        <div class="loading-screen" id="app-loader">
-            <div class="flex flex-col items-center">
-                <svg class="animate-spin h-10 w-10 text-rose-pink" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-            </div>
+<body class="bg-premium-cream">
+    <div id="root"></div>
+
+    <!-- Loading Screen Overlay -->
+    <div class="loading-screen" id="app-loader">
+        <div class="flex flex-col items-center">
+            <svg class="animate-spin h-12 w-12 text-rose-pink" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p class="mt-4 text-xs font-bold uppercase tracking-widest text-slate-400 font-sans">Flower Point Loading...</p>
         </div>
     </div>
+
     <script type="module" src="./index.tsx"></script>
+    
     <script>
-        // Remove loader once React starts
+        // Reveal root when everything is loaded
         window.addEventListener('load', () => {
+            const root = document.getElementById('root');
             const loader = document.getElementById('app-loader');
-            if(loader) loader.style.opacity = '0';
-            setTimeout(() => loader?.remove(), 500);
+            if(root) root.classList.add('is-ready');
+            if(loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.remove(), 500);
+            }
         });
     </script>
-<script type="module" src="/index.tsx"></script>
+
 </body>
 </html>
