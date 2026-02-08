@@ -13,9 +13,9 @@ const Footer: React.FC = () => {
             Crafting emotions through nature's most beautiful creations. Bringing premium floral experiences to your doorstep since 2015.
           </p>
           <div className="flex space-x-4">
-            <a href="#" className="hover:text-rose-pink transition-colors"><Instagram size={20} /></a>
-            <a href="#" className="hover:text-rose-pink transition-colors"><Facebook size={20} /></a>
-            <a href="#" className="hover:text-rose-pink transition-colors"><MessageCircle size={20} /></a>
+            <a href="#" className="hover:text-rose-pink transition-colors" aria-label="Follow us on Instagram"><Instagram size={20} /></a>
+            <a href="#" className="hover:text-rose-pink transition-colors" aria-label="Follow us on Facebook"><Facebook size={20} /></a>
+            <a href="#" className="hover:text-rose-pink transition-colors" aria-label="Send us a message"><MessageCircle size={20} /></a>
           </div>
         </div>
 
@@ -57,7 +57,7 @@ const Footer: React.FC = () => {
           </ul>
         </div>
       </div>
-      
+
       <div className="container mx-auto px-6 mt-16 pt-8 border-t border-slate-800 text-center text-sm">
         <p>&copy; {new Date().getFullYear()} Flower Point Floral Boutique. All rights reserved.</p>
       </div>

@@ -1,5 +1,6 @@
 
 import React, { useEffect } from 'react';
+import { HelmetProvider } from 'react-helmet-async';
 import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -26,14 +27,14 @@ const ScrollToTop = () => {
 // Global Modals Controller for direct purchases
 const GlobalModals = () => {
   const { directBuyItem, setDirectBuyItem } = useCart();
-  
+
   return (
-    <CheckoutModal 
+    <CheckoutModal
       isOpen={!!directBuyItem}
       onClose={() => setDirectBuyItem(null)}
       cart={directBuyItem ? [directBuyItem] : []}
       total={directBuyItem ? directBuyItem.price + DELIVERY_FEE : 0}
-      clearCart={() => {}}
+      clearCart={() => { }}
       isDirectBuy={true}
     />
   );
@@ -42,26 +43,28 @@ const GlobalModals = () => {
 const App: React.FC = () => {
   return (
     <CartProvider>
-      <Router>
-        <div className="flex flex-col min-h-screen">
-          <ScrollToTop />
-          <Navbar />
-          <main className="flex-grow">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/shop" element={<Shop />} />
-              <Route path="/product/:id" element={<ProductDetail />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-            </Routes>
-          </main>
-          <Footer />
-          {/* WhatsApp Button replaces the AI Chatbot */}
-          <WhatsAppButton />
-          <CartDrawer />
-          <GlobalModals />
-        </div>
-      </Router>
+      <HelmetProvider>
+        <Router>
+          <div className="flex flex-col min-h-screen">
+            <ScrollToTop />
+            <Navbar />
+            <main className="flex-grow">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/shop" element={<Shop />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+              </Routes>
+            </main>
+            <Footer />
+            {/* WhatsApp Button replaces the AI Chatbot */}
+            <WhatsAppButton />
+            <CartDrawer />
+            <GlobalModals />
+          </div>
+        </Router>
+      </HelmetProvider>
     </CartProvider>
   );
 };

@@ -1,86 +1,48 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
+
     <title>Flower Point | Premium Floral Boutique</title>
-    <meta name="description" content="Premium floral arrangements with same-day delivery. Crafting emotions through nature's beauty.">
+    <meta name="description"
+        content="Premium hand-tied bouquets and floral arrangements with same-day delivery. Crafted with love, delivered with care.">
 
-    <!-- Polyfill for Import Maps (Fixed URL) -->
-    <script src="https://ga.jspm.io/npm:es-module-shims@1.10.1/dist/es-module-shims.js"></script>
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Flower Point">
+    <meta property="og:title" content="Flower Point | Premium Floral Boutique">
+    <meta property="og:description"
+        content="Premium hand-tied bouquets and floral arrangements with same-day delivery. Crafted with love, delivered with care.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1516565349308-c76fe36a115c?q=80&w=1169">
 
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='%23E63973' d='M50 10c-5 0-15 5-15 15s10 15 15 15 15-5 15-15-10-15-15-15zm-25 25c0-5-5-15-15-15s-15 10-15 15 5 15 15 15 15-10 25-15zm50 0c0-5 10-15 15-15s15 10 15 15-5 15-15 15-15-10-15-15zM25 65c-5 0-15-5-15-15s10-15 15-15 15 5 15 15-10 15-15 15zm50 0c5 0 15-5 15-15s-10-15-15-15-15 5-15 15 10 15 15 15zM50 90c-5 0-15-10-15-25s10-15 15-15 15 5 15 15-10 25-15 25z'/><circle fill='%23B02656' cx='50' cy='50' r='12'/></svg>">
-    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Flower Point | Premium Floral Boutique">
+    <meta name="twitter:description"
+        content="Premium hand-tied bouquets and floral arrangements with same-day delivery. Crafted with love, delivered with care.">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1516565349308-c76fe36a115c?q=80&w=1169">
+
+    <link rel="canonical" href="https://flowerpoint.com" />
+
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='%23E63973' d='M50 10c-5 0-15 5-15 15s10 15 15 15 15-5 15-15-10-15-15-15zm-25 25c0-5-5-15-15-15s-15 10-15 15 5 15 15 15 15-10 25-15zm50 0c0-5 10-15 15-15s15 10 15 15-5 15-15 15-15-10-15-15zM25 65c-5 0-15-5-15-15s10-15 15-15 15 5 15 15-10 15-15 15zm50 0c5 0 15-5 15-15s-10-15-15-15-15 5-15 15 10 15 15 15zM50 90c-5 0-15-10-15-25s10-15 15-15 15 5 15 15-10 25-15 25z'/><circle fill='%23B02656' cx='50' cy='50' r='12'/></svg>">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'rose-pink': '#E63973',
-                        'premium-cream': '#FFF5F7',
-                    },
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
 
-    <script type="importmap">
-    {
-      "imports": {
-        "react": "https://esm.sh/react@^19.2.4",
-        "react-dom": "https://esm.sh/react-dom@^19.2.4",
-        "react-dom/client": "https://esm.sh/react-dom@^19.2.4/client",
-        "@google/genai": "https://esm.sh/@google/genai@^1.40.0",
-        "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
-        "react-router-dom": "https://esm.sh/react-router-dom@^7.13.0",
-        "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-        "react/": "https://esm.sh/react@^19.2.4/"
-      }
-    }
-    </script>
-<link rel="stylesheet" href="/index.css">
 </head>
+
 <body class="bg-premium-cream">
     <div id="root"></div>
 
-    <!-- Premium Loading Screen -->
-    <div class="loading-screen" id="app-loader">
-        <div class="flex flex-col items-center">
-            <div class="relative w-16 h-16">
-                <div class="absolute inset-0 border-4 border-rose-pink/10 rounded-full"></div>
-                <div class="absolute inset-0 border-4 border-rose-pink border-t-transparent rounded-full animate-spin"></div>
-            </div>
-            <p class="mt-6 text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 font-sans">Flower Point</p>
-        </div>
-    </div>
-
     <script type="module" src="./index.tsx"></script>
-    
-    <script>
-        // Reveal root when everything is loaded
-        window.addEventListener('load', () => {
-            const root = document.getElementById('root');
-            const loader = document.getElementById('app-loader');
-            if(root) root.classList.add('is-ready');
-            if(loader) {
-                loader.style.opacity = '0';
-                setTimeout(() => loader.remove(), 600);
-            }
-        });
-    </script>
-<script type="module" src="/index.tsx"></script>
+
 </body>
+
 </html>

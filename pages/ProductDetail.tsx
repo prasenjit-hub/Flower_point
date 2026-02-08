@@ -1,65 +1,55 @@
-
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { PRODUCTS } from '../constants';
 import { useCart } from '../context/CartContext';
-import { 
-  ArrowLeft, ShoppingCart, Zap, Star, ShieldCheck, 
+import {
+  ArrowLeft, ShoppingCart, Zap, Star, ShieldCheck,
   Truck, Clock, Info, Heart, ChevronRight, ChevronLeft
 } from 'lucide-react';
 import FlowerCard from '../components/FlowerCard';
-import { updateMeta, injectJSONLD } from '../services/seo';
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { addToCart, setDirectBuyItem } = useCart();
-  
+
   const product = useMemo(() => PRODUCTS.find(p => p.id === id), [id]);
   const images = useMemo(() => product?.images || [product?.image || ''], [product]);
-  
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
-    if (product) {
-      // Dynamic Meta for SEO
-      updateMeta(
-        `${product.name} | Premium ${product.category}`,
-        product.longDescription || product.description,
-        product.image
-      );
-
-      // Product Rich Results Schema
-      injectJSONLD({
-        "@context": "https://schema.org/",
-        "@type": "Product",
-        "name": product.name,
-        "image": images,
-        "description": product.description,
-        "sku": `FP-${product.id}`,
-        "brand": {
-          "@type": "Brand",
-          "name": "Flower Point"
-        },
-        "offers": {
-          "@type": "Offer",
-          "url": window.location.href,
-          "priceCurrency": "INR",
-          "price": product.price,
-          "availability": "https://schema.org/InStock",
-          "itemCondition": "https://schema.org/NewCondition"
-        },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.8",
-          "reviewCount": "24"
-        }
-      });
-    }
     window.scrollTo(0, 0);
     setCurrentIndex(0);
-  }, [id, product, images]);
+  }, [id]);
+
+  const schema = product ? {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": product.name,
+    "image": images,
+    "description": product.description,
+    "sku": `FP-${product.id}`,
+    "brand": {
+      "@type": "Brand",
+      "name": "Flower Point"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": window.location.href,
+      "priceCurrency": "INR",
+      "price": product.price,
+      "availability": "https://schema.org/InStock",
+      "itemCondition": "https://schema.org/NewCondition"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "24"
+    }
+  } : null;
 
   const handleNext = useCallback(() => {
     if (isAnimating) return;
@@ -90,9 +80,17 @@ const ProductDetail: React.FC = () => {
 
   return (
     <div className="pt-24 md:pt-32 pb-20">
+      {product && (
+        <Helmet>
+          <title>{product.name} | Premium {product.category} | Flower Point</title>
+          <meta name="description" content={product.longDescription || product.description} />
+          {product.image && <meta property="og:image" content={product.image} />}
+          <script type="application/ld+json">{JSON.stringify(schema)}</script>
+        </Helmet>
+      )}
       <div className="container mx-auto px-4 md:px-6">
         {/* Navigation */}
-        <button 
+        <button
           onClick={() => navigate(-1)}
           className="flex items-center space-x-2 text-slate-500 hover:text-rose-pink transition-colors mb-8 group"
         >
@@ -105,26 +103,25 @@ const ProductDetail: React.FC = () => {
           <div className="space-y-6">
             <div className="relative aspect-square rounded-[3rem] overflow-hidden bg-slate-100 shadow-2xl group/carousel">
               <div className="w-full h-full relative">
-                <img 
+                <img
                   key={currentIndex}
-                  src={images[currentIndex]} 
-                  alt={`${product.name} - Detailed floral view ${currentIndex + 1}`} 
-                  className={`w-full h-full object-cover transition-all duration-700 ease-out transform ${
-                    isAnimating ? 'scale-105 opacity-80' : 'scale-100 opacity-100'
-                  }`}
+                  src={images[currentIndex]}
+                  alt={`${product.name} - Detailed floral view ${currentIndex + 1}`}
+                  className={`w-full h-full object-cover transition-all duration-700 ease-out transform ${isAnimating ? 'scale-105 opacity-80' : 'scale-100 opacity-100'
+                    }`}
                 />
               </div>
 
               {images.length > 1 && (
                 <>
-                  <button 
+                  <button
                     onClick={handlePrev}
                     className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-slate-800 shadow-lg opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-rose-pink hover:text-white active:scale-90"
                     aria-label="Previous flower image"
                   >
                     <ChevronLeft size={24} />
                   </button>
-                  <button 
+                  <button
                     onClick={handleNext}
                     className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-slate-800 shadow-lg opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-rose-pink hover:text-white active:scale-90"
                     aria-label="Next flower image"
@@ -137,9 +134,8 @@ const ProductDetail: React.FC = () => {
                       <button
                         key={idx}
                         onClick={() => setCurrentIndex(idx)}
-                        className={`h-2 rounded-full transition-all duration-300 ${
-                          currentIndex === idx ? 'w-6 bg-white' : 'w-2 bg-white/50 hover:bg-white/80'
-                        }`}
+                        className={`h-2 rounded-full transition-all duration-300 ${currentIndex === idx ? 'w-6 bg-white' : 'w-2 bg-white/50 hover:bg-white/80'
+                          }`}
                         aria-label={`Go to image slide ${idx + 1}`}
                       />
                     ))}
@@ -147,16 +143,15 @@ const ProductDetail: React.FC = () => {
                 </>
               )}
             </div>
-            
+
             {images.length > 1 && (
               <div className="flex gap-4 overflow-x-auto pb-2 no-scrollbar">
                 {images.map((img, idx) => (
-                  <button 
+                  <button
                     key={idx}
                     onClick={() => setCurrentIndex(idx)}
-                    className={`relative w-24 h-24 rounded-2xl overflow-hidden shrink-0 transition-all border-2 ${
-                      currentIndex === idx ? 'border-rose-pink shadow-lg scale-105' : 'border-transparent opacity-60 hover:opacity-100'
-                    }`}
+                    className={`relative w-24 h-24 rounded-2xl overflow-hidden shrink-0 transition-all border-2 ${currentIndex === idx ? 'border-rose-pink shadow-lg scale-105' : 'border-transparent opacity-60 hover:opacity-100'
+                      }`}
                   >
                     <img src={img} alt={`${product.name} thumb ${idx}`} className="w-full h-full object-cover" />
                   </button>
@@ -180,7 +175,7 @@ const ProductDetail: React.FC = () => {
             <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 font-serif leading-tight">
               {product.name}
             </h1>
-            
+
             <div className="flex items-baseline space-x-3 mb-8">
               <span className="text-4xl font-black text-rose-pink">₹{product.price.toFixed(2)}</span>
               <span className="text-slate-400 text-sm line-through">₹{(product.price * 1.2).toFixed(2)}</span>
@@ -212,14 +207,14 @@ const ProductDetail: React.FC = () => {
 
             {/* Actions */}
             <div className="flex flex-col sm:flex-row gap-4 mb-10">
-              <button 
+              <button
                 onClick={() => addToCart(product)}
                 className="flex-1 flex items-center justify-center space-x-3 bg-slate-900 text-white py-5 rounded-3xl font-bold hover:bg-slate-800 transition-all active:scale-95 shadow-xl shadow-slate-900/10"
               >
                 <ShoppingCart size={20} />
                 <span>Add to Basket</span>
               </button>
-              <button 
+              <button
                 onClick={() => setDirectBuyItem({ ...product, quantity: 1 })}
                 className="flex-1 flex items-center justify-center space-x-3 bg-rose-pink text-white py-5 rounded-3xl font-bold hover:bg-rose-pink/90 transition-all active:scale-95 shadow-xl shadow-rose-pink/20"
               >

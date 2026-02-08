@@ -34,9 +34,8 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 w-full z-[120] transition-all duration-500 ${
-        isSolid ? 'bg-white/90 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'
-      }`}>
+      <nav className={`fixed top-0 left-0 w-full z-[120] transition-all duration-500 ${isSolid ? 'bg-white/90 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'
+        }`}>
         <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-12">
           <Link to="/" className="flex items-center space-x-2 z-[130]" onClick={() => setIsOpen(false)}>
             <Flower className={`w-7 h-7 md:w-8 h-8 ${isSolid ? 'text-rose-pink' : 'text-white'}`} />
@@ -51,19 +50,19 @@ const Navbar: React.FC = () => {
               <Link
                 key={link.name}
                 to={link.path}
-                className={`text-sm font-bold uppercase tracking-widest relative group transition-colors ${
-                  location.pathname === link.path 
-                  ? 'text-rose-pink' 
-                  : isSolid ? 'text-slate-700 hover:text-rose-pink' : 'text-white/90 hover:text-white'
-                }`}
+                className={`text-sm font-bold uppercase tracking-widest relative group transition-colors ${location.pathname === link.path
+                    ? 'text-rose-pink'
+                    : isSolid ? 'text-slate-700 hover:text-rose-pink' : 'text-white/90 hover:text-white'
+                  }`}
               >
                 {link.name}
               </Link>
             ))}
-            
-            <button 
+
+            <button
               onClick={() => setIsCartOpen(true)}
               className="relative p-2 group transition-transform active:scale-95 ml-4"
+              aria-label="View shopping cart"
             >
               <ShoppingBag className={isSolid ? 'text-slate-700 group-hover:text-rose-pink' : 'text-white'} size={24} />
               {cartItemCount > 0 && (
@@ -76,9 +75,10 @@ const Navbar: React.FC = () => {
 
           {/* Mobile UI */}
           <div className="flex items-center space-x-2 md:hidden">
-            <button 
+            <button
               onClick={() => setIsCartOpen(true)}
               className="relative p-2 z-[130]"
+              aria-label="View shopping cart"
             >
               <ShoppingBag className={isOpen ? 'text-slate-900' : isSolid ? 'text-slate-900' : 'text-white'} size={24} />
               {cartItemCount > 0 && (
@@ -87,9 +87,9 @@ const Navbar: React.FC = () => {
                 </span>
               )}
             </button>
-            
-            <button 
-              className="z-[130] p-2 focus:outline-none" 
+
+            <button
+              className="z-[130] p-2 focus:outline-none"
               onClick={() => setIsOpen(!isOpen)}
               aria-label="Toggle Menu"
             >
@@ -104,9 +104,8 @@ const Navbar: React.FC = () => {
       </nav>
 
       {/* Mobile Drawer */}
-      <div className={`md:hidden fixed inset-0 w-full h-screen z-[115] transition-all duration-500 ease-in-out ${
-        isOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 -translate-y-full invisible'
-      }`}>
+      <div className={`md:hidden fixed inset-0 w-full h-screen z-[115] transition-all duration-500 ease-in-out ${isOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 -translate-y-full invisible'
+        }`}>
         <div className="absolute inset-0 bg-white"></div>
         <div className="relative h-full flex flex-col pt-24 pb-12 px-8 overflow-y-auto">
           <div className="flex flex-col space-y-6 mb-10">
@@ -114,24 +113,22 @@ const Navbar: React.FC = () => {
               <Link
                 key={link.name}
                 to={link.path}
-                className={`flex items-baseline space-x-4 transition-all ${
-                  isOpen ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'
-                }`}
+                className={`flex items-baseline space-x-4 transition-all ${isOpen ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'
+                  }`}
                 style={{ transitionDelay: `${idx * 100}ms` }}
                 onClick={() => setIsOpen(false)}
               >
                 <span className="text-xs font-bold text-rose-pink/40 font-mono">{link.id}</span>
-                <span className={`text-4xl font-serif font-black ${
-                  location.pathname === link.path ? 'text-rose-pink' : 'text-slate-900'
-                }`}>
+                <span className={`text-4xl font-serif font-black ${location.pathname === link.path ? 'text-rose-pink' : 'text-slate-900'
+                  }`}>
                   {link.name}
                 </span>
               </Link>
             ))}
           </div>
 
-          <Link 
-            to="/shop" 
+          <Link
+            to="/shop"
             onClick={() => setIsOpen(false)}
             className="inline-flex items-center space-x-3 bg-slate-900 text-white px-8 py-4 rounded-full font-bold shadow-xl mb-12 self-start"
           >

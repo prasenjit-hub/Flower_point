@@ -1,55 +1,47 @@
-
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { ArrowRight, Star, Truck, ShieldCheck, Heart, Sparkles } from 'lucide-react';
 import { PRODUCTS, TESTIMONIALS, CATEGORIES } from '../constants';
 import FlowerCard from '../components/FlowerCard';
-import { updateMeta, injectJSONLD } from '../services/seo';
 
 const Home: React.FC = () => {
   const featured = PRODUCTS.filter(p => p.isFeatured).slice(0, 3);
 
-  useEffect(() => {
-    updateMeta(
-      'Premium Flower Boutique | Same-Day Delivery',
-      'Discover exquisite hand-tied bouquets and premium floral arrangements at Flower Point. Offering same-day delivery for weddings, gifts, and special occasions.'
-    );
-
-    injectJSONLD({
-      "@context": "https://schema.org",
-      "@type": "FlowerShop",
-      "name": "Flower Point",
-      "image": "https://images.unsplash.com/photo-1516565349308-c76fe36a115c?q=80&w=1169",
-      "@id": "https://flowerpoint.com",
-      "url": "https://flowerpoint.com",
-      "telephone": "+919000000000",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "123 Floral Avenue",
-        "addressLocality": "Garden City",
-        "addressRegion": "GC",
-        "postalCode": "54321",
-        "addressCountry": "IN"
-      },
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday"
-        ],
-        "opens": "09:00",
-        "closes": "19:00"
-      },
-      "sameAs": [
-        "https://www.facebook.com/flowerpoint",
-        "https://www.instagram.com/flowerpoint"
-      ]
-    });
-  }, []);
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "FlowerShop",
+    "name": "Flower Point",
+    "image": "https://images.unsplash.com/photo-1516565349308-c76fe36a115c?q=80&w=1169",
+    "@id": "https://flowerpoint.com",
+    "url": "https://flowerpoint.com",
+    "telephone": "+919000000000",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "123 Floral Avenue",
+      "addressLocality": "Garden City",
+      "addressRegion": "GC",
+      "postalCode": "54321",
+      "addressCountry": "IN"
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ],
+      "opens": "09:00",
+      "closes": "19:00"
+    },
+    "sameAs": [
+      "https://www.facebook.com/flowerpoint",
+      "https://www.instagram.com/flowerpoint"
+    ]
+  };
 
   const getCategoryImage = (cat: string) => {
     switch (cat) {
@@ -68,20 +60,26 @@ const Home: React.FC = () => {
 
   return (
     <div className="flex flex-col overflow-x-hidden">
+      <Helmet>
+        <title>Premium Flower Boutique | Same-Day Delivery | Flower Point</title>
+        <meta name="description" content="Discover exquisite hand-tied bouquets and premium floral arrangements at Flower Point. Offering same-day delivery for weddings, gifts, and special occasions." />
+        <link rel="canonical" href="https://flowerpoint.com/" />
+        <script type="application/ld+json">{JSON.stringify(schema)}</script>
+      </Helmet>
       {/* Hero Section */}
       <section className="relative h-[90vh] md:h-screen flex items-center justify-center text-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1516565349308-c76fe36a115c?q=80&w=1169&auto=format&fit=crop" 
-            alt="Flower Point Premium Floral Collection Background" 
+          <img
+            src="https://images.unsplash.com/photo-1516565349308-c76fe36a115c?q=80&w=1169&auto=format&fit=crop"
+            alt="Flower Point Premium Floral Collection Background"
             className="w-full h-full object-cover animate-pulse-slow"
           />
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
-        
+
         <div className="relative z-10 container mx-auto px-4 md:px-6 max-w-4xl">
           <h1 className="text-white text-4xl md:text-7xl font-black mb-4 md:mb-6 animate-in slide-in-from-bottom-10 duration-1000 leading-tight">
-            Nature's Poetry, <br/><span className="text-rose-pink">Hand-Delivered.</span>
+            Nature's Poetry, <br /><span className="text-rose-pink">Hand-Delivered.</span>
           </h1>
           <p className="text-white/90 text-base md:text-xl mb-8 md:mb-10 max-w-2xl mx-auto font-light leading-relaxed animate-in slide-in-from-bottom-20 duration-1000 delay-200 px-2">
             Experience the finest floral arrangements crafted with passion and delivered with care across the city.
@@ -128,7 +126,7 @@ const Home: React.FC = () => {
               <ArrowRight size={20} />
             </Link>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
             {featured.map(product => (
               <FlowerCard key={product.id} product={product} />
@@ -142,17 +140,17 @@ const Home: React.FC = () => {
         <div className="container mx-auto px-4 md:px-6 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Shop by Occasion</h2>
           <p className="text-slate-600 mb-10 md:mb-12 text-sm md:text-base">Capture the moment with the perfect floral bloom.</p>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {CATEGORIES.map(cat => (
-              <Link 
-                key={cat} 
+              <Link
+                key={cat}
                 to={`/shop?category=${cat}`}
                 className="group relative h-48 md:h-64 rounded-2xl md:rounded-3xl overflow-hidden shadow-md"
               >
-                <img 
-                  src={getCategoryImage(cat)} 
-                  alt={`Shop ${cat} collection at Flower Point`} 
+                <img
+                  src={getCategoryImage(cat)}
+                  alt={`Shop ${cat} collection at Flower Point`}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                 />
@@ -191,15 +189,15 @@ const Home: React.FC = () => {
         <div className="container mx-auto px-4 md:px-6">
           <div className="bg-slate-900 rounded-3xl md:rounded-[3rem] p-8 md:p-20 text-center text-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-48 h-48 md:w-64 md:h-64 bg-rose-pink/10 rounded-full blur-3xl -mr-24 -mt-24"></div>
-            
+
             <h2 className="text-3xl md:text-5xl font-bold mb-4 md:mb-6 relative z-10">Stay Inspired</h2>
             <p className="text-slate-400 text-sm md:text-lg mb-8 md:mb-10 max-w-xl mx-auto relative z-10">
               Join our list for exclusive floral care tips and seasonal collection early access.
             </p>
             <form className="max-w-md mx-auto flex flex-col sm:flex-row gap-3 relative z-10">
-              <input 
-                type="email" 
-                placeholder="Enter your email" 
+              <input
+                type="email"
+                placeholder="Enter your email"
                 className="flex-1 px-6 py-4 rounded-xl md:rounded-full bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-rose-pink text-white text-sm"
                 aria-label="Subscribe to newsletter"
               />

@@ -3,20 +3,21 @@ import { Product, Category, Testimonial } from './types';
 
 export const CATEGORIES: Category[] = ['Roses', 'Bouquets', 'Wedding', 'Gifts'];
 
-export const SHOP_WHATSAPP_NUMBER = "919000000000"; 
+export const SHOP_WHATSAPP_NUMBER = "919000000000";
 export const DELIVERY_FEE = 50;
 
 export const PRODUCTS: Product[] = [
   {
     id: '1',
     name: 'Romantic Rose Boutique',
-    price: 45.00,
+    price: 200.00,
     category: 'Roses',
-    image: 'https://images.unsplash.com/photo-1552174965-c6616f62fc4f?q=80&w=800&auto=format&fit=crop',
+    image: '/images/Romantic Rose Boutique/red rose bouquets 1.webp',
     images: [
-      'https://images.unsplash.com/photo-1552174965-c6616f62fc4f?q=80&w=800',
-      'https://images.unsplash.com/photo-1548624149-fbb88c3e80f9?q=80&w=800',
-      'https://images.unsplash.com/photo-1518133835878-5a93cc3f89e5?q=80&w=800'
+      '/images/Romantic Rose Boutique/red rose bouquets 1.webp',
+      '/images/Romantic Rose Boutique/red rose bouquets 2.webp',
+      '/images/Romantic Rose Boutique/red rose 3.webp',
+      '/images/Romantic Rose Boutique/rose 2.webp'
     ],
     description: 'A luxurious arrangement of premium red roses to express your deepest love.',
     longDescription: 'Our Romantic Rose Boutique is handcrafted using only the finest Grade-A long-stemmed roses. Each bloom is selected for its deep crimson hue and velvety texture. Perfect for anniversaries, proposals, or just to say "I love you" in the most elegant way possible.',
@@ -26,12 +27,15 @@ export const PRODUCTS: Product[] = [
   {
     id: '2',
     name: 'Mixed Floral Joy',
-    price: 55.00,
+    price: 300.00,
     category: 'Bouquets',
-    image: 'https://images.unsplash.com/photo-1679765858056-408c3d929db6?q=80&w=800&auto=format&fit=crop',
+    image: '/images/Mixed Floral Joy/Floral Joy 2.webp',
     images: [
-      'https://images.unsplash.com/photo-1679765858056-408c3d929db6?q=80&w=800',
-      'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?q=80&w=800'
+      '/images/Mixed Floral Joy/Floral Joy 2.webp',
+      '/images/Mixed Floral Joy/Floral Joy 1.webp',
+      '/images/Mixed Floral Joy/Floral Joy 3.webp',
+      '/images/Mixed Floral Joy/Floral Joy 4.webp',
+      '/images/Mixed Floral Joy/multicolour rose.webp'
     ],
     description: 'A vibrant mix of seasonal blooms hand-picked for maximum happiness.',
     longDescription: 'Bring a burst of color into any home with our Mixed Floral Joy. This bouquet features a curated selection of ranunculus, spray roses, and seasonal greenery. It is designed to look like a freshly picked garden meadow.',
@@ -87,19 +91,19 @@ export const PRODUCTS: Product[] = [
 export const TESTIMONIALS: Testimonial[] = [
   {
     id: 't1',
-    name: 'Sarah Johnson',
+    name: 'Rahul Paul',
     rating: 5,
     text: 'The flowers were absolutely beautiful! My wife loved the bouquet and it lasted for weeks. Will definitely order again.'
   },
   {
     id: 't2',
-    name: 'Michael Brown',
+    name: 'Sourav Nath',
     rating: 5,
     text: 'Fast delivery and amazing quality. The wedding arrangements were perfect and exactly as described. Highly recommended!'
   },
   {
     id: 't3',
-    name: 'Emily Davis',
+    name: 'Sumit Chaudhuri',
     rating: 4.5,
     text: 'Great service and beautiful flowers. The team helped me choose the perfect bouquet for my anniversary.'
   }
