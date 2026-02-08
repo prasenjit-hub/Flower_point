@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --rose-pink: #E63973;
+  --premium-cream: #FFF5F7;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--premium-cream);
+  font-family: 'Poppins', sans-serif;
+  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Pre-styled text to prevent raw HTML look */
+h1,
+h2 {
+  color: #0f172a;
+  font-family: 'Playfair Display', serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
